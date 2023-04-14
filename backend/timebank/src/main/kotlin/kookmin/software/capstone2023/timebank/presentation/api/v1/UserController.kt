@@ -22,7 +22,7 @@ class UserController(
 ) {
     @PostMapping("login")
     fun loginUser(
-        @Validated @RequestBody data: UserLoginRequestData.SocialLoginRequestData,
+        @Validated @RequestBody data: UserLoginRequestData,
     ): UserLoginResponseData {
         val loginData = userLoginService.login(data.toAuthenticationRequest())
 
@@ -34,7 +34,7 @@ class UserController(
     @PostMapping("register")
     @ResponseStatus(HttpStatus.CREATED)
     fun registerUser(
-        @Validated @RequestBody data: UserRegisterRequestData.SocialUserRegisterRequestData
+        @Validated @RequestBody data: UserRegisterRequestData
     ) {
         userRegisterService.register(
             authentication = data.toAuthenticationRequest(),

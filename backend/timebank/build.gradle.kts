@@ -47,7 +47,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
 
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
-    implementation("org.springframework.security:spring-security-core")
+
     implementation("com.auth0:java-jwt:4.3.0")
 
     runtimeOnly("mysql:mysql-connector-java:8.0.32")

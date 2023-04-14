@@ -5,19 +5,24 @@ import kookmin.software.capstone2023.timebank.application.service.auth.model.Aut
 import kookmin.software.capstone2023.timebank.domain.model.Account
 import kookmin.software.capstone2023.timebank.domain.model.AccountType
 import kookmin.software.capstone2023.timebank.domain.model.User
+import kookmin.software.capstone2023.timebank.domain.model.auth.PasswordAuthentication
 import kookmin.software.capstone2023.timebank.domain.model.auth.SocialAuthentication
 import kookmin.software.capstone2023.timebank.domain.repository.AccountJpaRepository
+import kookmin.software.capstone2023.timebank.domain.repository.PasswordAuthenticationJpaRepository
 import kookmin.software.capstone2023.timebank.domain.repository.SocialAuthenticationJpaRepository
 import kookmin.software.capstone2023.timebank.domain.repository.UserJpaRepository
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserRegisterService(
     private val socialPlatformUserFindService: SocialPlatformUserFindService,
+    private val passwordEncoder: PasswordEncoder,
     private val userJpaRepository: UserJpaRepository,
     private val accountJpaRepository: AccountJpaRepository,
     private val socialAuthenticationJpaRepository: SocialAuthenticationJpaRepository,
+    private val passwordAuthenticationJpaRepository: PasswordAuthenticationJpaRepository,
 ) {
     @Transactional
     fun register(
@@ -58,7 +63,19 @@ class UserRegisterService(
                 )
             }
 
-            is AuthenticationRequest.PasswordAuthenticationRequest -> TODO()
+            is AuthenticationRequest.PasswordAuthenticationRequest -> {
+                val encodedPassword = passwordEncoder.encode(
+                    authentication.password
+                )
+
+                passwordAuthenticationJpaRepository.save(
+                    PasswordAuthentication(
+                        userId = user.id,
+                        username = authentication.username,
+                        password = encodedPassword,
+                    )
+                )
+            }
         }
     }
 
@@ -80,7 +97,15 @@ class UserRegisterService(
                 }
             }
 
-            is AuthenticationRequest.PasswordAuthenticationRequest -> TODO()
+            is AuthenticationRequest.PasswordAuthenticationRequest -> {
+                val existsAuthentication = passwordAuthenticationJpaRepository.existsByUsername(
+                    username = authentication.username,
+                )
+
+                if (existsAuthentication) {
+                    throw ConflictException(message = "이미 등록된 사용자입니다.")
+                }
+            }
         }
     }
 }

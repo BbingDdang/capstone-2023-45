@@ -15,7 +15,4 @@ class PasswordAuthentication(
 
     @Column(nullable = false, updatable = true)
     val password: String,
-
-    @Column(nullable = false, updatable = true)
-    val salt: String,
 ) : BaseTimeEntity()

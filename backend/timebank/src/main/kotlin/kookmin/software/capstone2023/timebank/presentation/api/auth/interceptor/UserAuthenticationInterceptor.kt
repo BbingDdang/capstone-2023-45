@@ -3,8 +3,8 @@ package kookmin.software.capstone2023.timebank.presentation.api.auth.interceptor
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import kookmin.software.capstone2023.timebank.application.exception.UnauthorizedException
-import kookmin.software.capstone2023.timebank.presentation.api.RequestAttributes
 import kookmin.software.capstone2023.timebank.application.service.auth.UserAuthenticator
+import kookmin.software.capstone2023.timebank.presentation.api.RequestAttributes
 import kookmin.software.capstone2023.timebank.presentation.api.auth.model.UserContext
 import org.springframework.stereotype.Component
 import org.springframework.web.method.HandlerMethod
