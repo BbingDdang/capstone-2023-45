@@ -2,14 +2,9 @@ package kookmin.software.capstone2023.timebank.presentation.api.v1
 
 
 import kookmin.software.capstone2023.timebank.application.service.inqui.InquiryService
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
+import kookmin.software.capstone2023.timebank.domain.model.Period
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import kookmin.software.capstone2023.timebank.domain.repository.InquiryRepository
-import kookmin.software.capstone2023.timebank.domain.model.Inquiry
-import kookmin.software.capstone2023.timebank.domain.model.Period
-import java.security.Principal
 import java.util.*
 
 
@@ -65,6 +60,10 @@ class InquiryController(
     @GetMapping("/search")
     fun getInquiriesByTitle(@RequestParam("title") title: String): List<InquiryService.InquiryDto> {
         return inquiryService.getInquiryByTitle(title)
+    }
+    @GetMapping("/users/{userId}/search")
+    fun getUserInquiriesByTitle(@RequestParam("title") title: String, @PathVariable userId: Long): List<InquiryService.InquiryDto> {
+        return inquiryService.getUserInquiryByTitle(title, userId)
     }
 
     /**
