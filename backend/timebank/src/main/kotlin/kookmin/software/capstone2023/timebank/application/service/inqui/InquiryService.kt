@@ -104,6 +104,15 @@ class InquiryService(
         val inquiries = inquiryRepository.findByInquiryDateBetween(start, end)
         return inquiries.map { inquiryToDto(it) }
     }
+    /**
+     * 기간별 조회 for user
+     */
+    fun getUserInquiriesByPeriod(period: Period, userId: Long): List<InquiryDto>{
+        val end = LocalDateTime.now()
+        val start = end.minusMonths(period.months)
+        val inquiries = inquiryRepository.findByInquiryDateBetweenAndUserId(start, end, userId)
+        return inquiries.map { inquiryToDto(it) }
+    }
 
     /**
      * 문의 제목 검색 service
