@@ -30,7 +30,7 @@ class InquiryController(
     }
 
     /**
-     * 문의ID겁색 조회 (댓글까지)
+     * 문의ID겁색 조회
      *
      */
     @GetMapping("/{id}")
